@@ -1,0 +1,101 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+
+      <div class="card-body border-bottom">
+        <div class="d-flex align-items-center">
+          <h3 class="mb-0 card-title flex-grow-1">{{titulo}}</h3>
+          <div class="flex-shrink-0 d-flex gap-1 btn-nuevo">
+            <a class="btn btn-primary btn-icon"
+               *ngIf="botonNuevo"
+               (click)="irNuevo()"
+               routerLinkActive="active">
+               <i class="mdi mdi-plus me-1"></i>Nuevo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body border-bottom">
+        <div class="row">
+          <div class="col-xl-10 col-lg-8">
+            <input
+              type="search"
+              class="form-control"
+              id="inputBuscar"
+              [(ngModel)]="inputBuscar"
+              (ngModelChange)="buscarKeyDown(false)"
+              placeholder="{{ textoBuscar }}">
+          </div>
+          <div class="col-xl-2 col-lg-4">
+            <button type="button"
+              class="btn btn-soft-secondary w-100"
+              (click)="buscarKeyDown(true)">
+              <i class="bx bx-search-alt-2"></i>
+              Buscar
+            </button>
+          </div>
+        </div>
+
+        <div class="row g-3 mt-1">
+          <div class="table-responsive">
+            <table class="table table-bordered align-middle nowrap data-table" >
+              <thead>
+                <tr>
+                  <th scope="" *ngFor="let campo of this.cabeceras" >
+                    {{ encabezados.cabeceras[campo].texto }}
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let registro of datos ; let i = index ">
+                  <ng-template [ngIf]="templateFila!==undefined">
+                    <ng-container [ngTemplateOutlet]="templateFila" [ngTemplateOutletContext]="{filaData:registro, index:i+1}">
+                    </ng-container>
+                  </ng-template>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="row justify-content-between align-items-center" *ngIf="datos">
+            <div class="col-auto me-auto">
+              <p class="text-muted mb-0">Mostrando <b>{{datos.length}}</b> de <b>{{total}}</b> registros</p>
+            </div>
+            <div class="col-auto me-auto">
+              <select class="form-select" [value]="10" [(ngModel)]="porPagina" (click)="obtenerDatos()">
+                <option value="10">Mostrar 10</option>
+                <option value="20">Mostrar 20</option>
+                <option value="1000">Mostrar Todo</option>
+              </select>
+            </div>
+            <div class="col-auto">
+              <div class="card d-inline-block ms-auto mb-0">
+                <div class="card-body p-2">
+                  <nav aria-label="Page navigation example" class="mb-0">
+                    <ul class="pagination mb-0">
+                      <pagination
+                        [boundaryLinks]="true"
+                        [directionLinks]="true"
+                        [totalItems]="total"
+                        [maxSize]="10"
+                        [itemsPerPage]="porPagina"
+                        (pageChanged)="pageChanged($event)"
+                        previousText="&lsaquo;"
+                        nextText="&rsaquo;"
+                        firstText="&laquo;"
+                        lastText="&raquo;">
+                      </pagination>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

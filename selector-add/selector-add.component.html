@@ -1,0 +1,38 @@
+
+<label for="formrow-firstname-input ">{{label}}</label>
+<div class="input-group">
+  <!-- <select class="form-control form-select" id="contacto_id" [(ngModel)]="selector" (change)="alCambiar($event)" [ngClass]="{ 'is-invalid': submitted && control.control.errors }">
+    <option *ngFor="let t of dataArray" value="{{t[campoValor]}}"  >{{t[campoNombre]}} </option>
+  </select>--->
+  <ng-select class="form-control form-control form-select selNoBorder"  [ngClass]="{ 'is-invalid': submitted && control.control.errors }" [(ngModel)]="selector" (change)="alCambiar($event)">
+    <ng-option *ngFor="let t of dataArray" [value]="t[campoValor]"  >{{t[campoNombre]}} </ng-option>
+  </ng-select>
+  <span class="btn btn-success" *ngIf="showAdd && templateNuevo !== null && !nuevoRegistro&&!editarRegistro" (click)="nuevoRegistro=true"><i class="fas fa-plus"></i></span>
+  <span class="btn btn-primary" *ngIf="showEdit && templateEditar !== null && !editarRegistro&&!nuevoRegistro" (click)="editarRegistro=true"><i class="fas fa-edit"></i></span>
+  <span class="btn btn-danger" *ngIf=" nuevoRegistro||editarRegistro" (click)="nuevoRegistro=false;editarRegistro=false"><i class="mdi mdi-close"></i></span>
+</div>
+
+<div class="card" *ngIf="nuevoRegistro">
+  <div class="card-body">
+    <ng-template *ngIf="templateNuevo !== null;then templateNuevoExist"></ng-template>
+    <ng-template #templateNuevoExist>
+      <ng-container [ngTemplateOutlet]="templateNuevo" ></ng-container>
+    </ng-template>
+  </div>
+</div>
+<div class="card" *ngIf="editarRegistro">
+  <div class="card-body">
+    <ng-template *ngIf="templateEditar !== null;then templateEditarExist"></ng-template>
+    <ng-template #templateEditarExist>
+      <ng-container [ngTemplateOutlet]="templateEditar" ></ng-container>
+    </ng-template>
+  </div>
+</div>
+
+<div *ngIf="control.control.errors && submitted" class="invalid-feedback" align="left" >
+  <div *ngIf="control.control.errors['required']">Es requerido</div>
+  <div *ngIf="control.control.errors['minlength']">Debe tener al menos {{control.control.errors['minlength']['requiredLength']}} caracteres</div>
+  <div *ngIf="control.control.errors['maxlength']">Debe tener menos de {{control.control.errors['maxlength']['requiredLength']}} caracteres</div>
+  <div *ngIf="control.control.errors['min']">Debe tener mayor o igual que {{control.control.errors['min']['min']}} </div>
+  <div *ngIf="control.control.errors['max']">Debe tener menor o igual que {{control.control.errors['max']['max']}} </div>
+</div>

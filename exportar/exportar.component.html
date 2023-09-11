@@ -1,0 +1,47 @@
+<div class="container" role="main">
+  <!-- <input type="file" class="form-control" (change)="onFileChange($event)" multiple="false" /> -->
+
+  <div >
+    <label class="w-50" for="inp_conNombredeCampo"> Nombres reales de campo </label>
+    <input id="inp_conNombredeCampo" type="checkbox" [(ngModel)] = "conNombredeCampo"  />
+  </div>
+  <div>
+    <label class="w-50" for="inp_conIddeCampo"> Con identificadores en vez de nombres (Ids)</label>
+    <input id="inp_conIddeCampo" type="checkbox" [(ngModel)] = "conIddeCampo"  />
+  </div>
+  <div class="scrollable" *ngIf="datos" >
+    <table id="tblcsvdata"  border="1" class="table table-sm table-condensed1 table-bordered table-striped table-light" *ngIf="datos">
+      <thead>
+        <ng-template ngFor let-campo [ngForOf]="this.cabeceras">
+        <ng-template *ngIf="conNombredeCampo; then campoVisible else campoNoVisible" ></ng-template>
+        <ng-template #campoVisible>
+          <th *ngIf="formato.cabeceras[campo].visibleCheck; ">
+            {{ campo }}
+          </th>
+        </ng-template>
+          <ng-template #campoNoVisible>
+            <th *ngIf="formato.cabeceras[campo].visibleCheck; ">
+              {{ formato.cabeceras[campo].texto }}
+            </th>
+          </ng-template>
+        </ng-template>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of datos; index as i">
+          <ng-template ngFor let-campo [ngForOf]="this.cabeceras">
+            <ng-template *ngIf="formato.cabeceras[campo].visibleCheck;then tempTD"></ng-template>
+            <ng-template #tempTD>
+              <td> {{ mascara( data[campo], data, formato.cabeceras[campo] ) }} </td>
+            </ng-template>
+          </ng-template>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr>
+  <div class="mb-3 d-flex justify-content-end ">
+    <button class=" btn btn-primary" (click)="onSave()"><i class="bx bx-download"></i>Exportar a Excel</button>
+  </div>
+</div>
+

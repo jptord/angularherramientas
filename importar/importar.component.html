@@ -1,0 +1,86 @@
+<div class="container " role="main">
+  <div class="mb-6">
+    <hr>
+    <ul class="nav nav-tabs nav-tabs-dark" role="tablist">
+      <li class="nav-item"><a class="nav-link atabx " (click)="cambiarTab($event)" [ngClass]="{'active' : tabOption=='tab-leer' }" data-bs-toggle="tab" data-bs-target="#tab-leer" role="button" aria-current="page" href="#">Datos de Entrada</a></li>
+      <li class="nav-item"><a class="nav-link atabx " (click)="cambiarTab($event)" [ngClass]="{'active' : tabOption=='tab-datos' }" data-bs-toggle="tab" data-bs-target="#tab-datos" role="button" aria-current="page" href="#">Datos</a></li>
+      <li class="nav-item"><a class="nav-link atabx " (click)="cambiarTab($event)" [ngClass]="{'active' : tabOption=='tab-csv' }" data-bs-toggle="tab" data-bs-target="#tab-csv" role="button" aria-current="page" href="#">Validación</a></li>
+      <li class="nav-item"><a class="nav-link atabx " (click)="cambiarTab($event)" [ngClass]="{'active' : tabOption=='tab-excel' }" data-bs-toggle="tab" data-bs-target="#tab-excel" role="button" aria-current="page" href="#">Importar</a></li>
+    </ul>
+    <div class="tab-content contenedor">
+      <div class="tab-pane border  container " [ngClass]="{'active' : tabOption=='tab-leer' }"  id="tab-leer">
+          
+          <div class=" m-3">
+            <div class="form-check "><input class="form-check-input" type="radio" name="formRadios" id="formRadios1" [(ngModel)]="tipoEntrada" [value]="'archivo'" checked><label class="form-check-label" for="formRadios1"> Desde Archivo </label></div>
+            <small *ngIf="extension=='json' && tipoEntrada=='archivo'"> El archivo JSON debe ser un Array [] con objetos simples dentro</small>
+          </div>
+          
+          <div class=" m-3" *ngIf="tipoEntrada=='archivo'">
+            <input type="file" class="form-control" accept=".xls, .xlsx, .csv, .json" (change)="alSubir($event)" multiple="false" />             
+          </div>
+
+          <div class=" m-3">
+            <div class="form-check "><input class="form-check-input" type="radio" name="formRadios" id="formRadios2" [(ngModel)]="tipoEntrada" [value]="'texto'" checked><label class="form-check-label" for="formRadios2"> Desde Portapapeles </label></div>
+          </div>
+
+          <div class="m-3" *ngIf="tipoEntrada=='texto'">
+            <small class="text-primary">Puede pegar contenido <strong>CSV</strong> (separado por |) o contenido <strong>JSON</strong> </small>
+            <textarea class="form-control form-control-sm" rows=15 [(ngModel)]="texto"></textarea>
+          </div>
+
+          <div class="mb-3 d-flex justify-content-end " *ngIf="(tipoEntrada == 'texto' && texto) || (tipoEntrada == 'archivo' && archivo) ">
+            <button class=" btn  btn-outline-primary" (click)="leerDatos()"><i class="bx bx-upload"></i> Leer datos</button>
+          </div>
+      </div>
+      <div class="tab-pane border " [ngClass]="{'active' : tabOption=='tab-datos' }" id="tab-datos">
+          <div class="scrollable" >
+            <table *ngIf="datos" border="1" class="table table-sm table-condensed table-bordered table-striped table-light">
+              <thead>
+                <tr><th></th><th *ngFor="let c of cabecerasImportacion">
+                    <select aria-placeholder="Elegir un campo" [(ngModel)]="c.seleccion" >
+                        <option disabled> Elegir un campo</option>
+                        <option > </option>
+                        <option *ngFor="let campo of this.cabeceras" [value]="campo">{{ formato.cabeceras[campo].texto }}</option>  
+                    </select>
+                </th></tr>
+                <tr><th></th><th *ngFor="let c of keys(datos[0])">{{c}}</th></tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of datos;index as i">
+                  <td>{{ i+1 }}</td><td *ngFor="let c of keys(row)">{{row[c]}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="text-danger" *ngIf="!datos"> {{ validacion}}</div>
+        
+      </div>
+      <div class="tab-pane border " [ngClass]="{'active' : tabOption=='tab-csv' }" id="tab-csv">
+          
+      </div>
+      <div class="tab-pane border " [ngClass]="{'active' : tabOption=='tab-excel' }" id="tab-excel">
+          
+      </div>
+    </div>
+    <hr *ngIf="datos">
+    <div class="mb-3 d-flex justify-content-start row " >
+      <div class="col-8 row" >
+
+        <div class="col-8">
+          <progressbar [value]="progreso"></progressbar>        
+        </div>
+
+        <div class="col-4">
+          <small>{{ avance }}</small>
+        </div>
+      </div>
+      <div class="col-4  d-flex  justify-content-end " *ngIf="datos">
+        <button class=" btn btn-primary" (click)="comenzarImportacion()" [disabled]="importando"><i class="bx bx-upload"></i>Comenzar Importación</button>
+      </div>
+    </div>
+  </div>
+  <hr>
+
+
+</div>
+

@@ -1,0 +1,39 @@
+<div class="container-fluid"></div>
+<div class="row">
+
+  <div class="col-lg-12" *ngIf="grupoFormulario">
+    <form (ngSubmit)="guardar()" [formGroup]="grupoFormulario">
+      <div class="card" *ngIf="formularioData">
+        <div class="card-body" *ngIf="formularioData.formulario">
+
+          <ng-template ngFor let-campo [ngForOf]="formularioData.formulario">
+            <div class="mb-6">
+              <label>{{ estructuraDatos.cabeceras[campo.field].texto }}</label>
+              <input type="text" class="form-control" [formControlName]="campo.field" [ngClass]="{ 'is-invalid': submitted && form[campo.field].errors }">
+              <div class="invalid-feedback" align="left" *ngIf="campo.rules" [ngClass]="{ 'is-invalid': submitted && form[campo.field].errors }">
+                <!--   <div *ngIf="form[campo.field].errors && campo.field">
+                  <ng-template let-err [ngForOf]="form[campo.field].errors">
+                    <div *ngIf="relRules2(campo,err)"> {{relRules2(campo,err) }}</div>
+                  </ng-template>
+                </div>-->
+                <ng-template ngFor let-rule [ngForOf]="campo.rules">
+                  <div *ngIf="form[campo.field].errors">
+                    <div *ngIf="form[campo.field].errors[relRules(rule.name)]"> {{rule.message }}</div>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+          </ng-template>
+
+          <hr>
+          <div class="col-lg-6">
+            <button *ngIf="!dataEdit" type="submit" class="btn btn-primary w-md">Registrar</button>
+            <button *ngIf="dataEdit" type="submit" class="btn btn-primary w-md">Guardar</button>
+          </div>
+
+        </div>
+      </div>
+    </form>
+  </div>
+
+</div>

@@ -1,0 +1,16 @@
+::ng-deep.ng-select.ng-select-single .ng-select-container {
+  height:32px;
+  }
+
+::ng-deep.ng-select .ng-select-container{
+  min-height:32px;
+}
+
+
+.selNoBorder{
+  min-height:32px;
+  height:32px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
