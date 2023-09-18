@@ -5,7 +5,7 @@
     <option *ngFor="let t of dataArray" value="{{t[campoValor]}}"  >{{t[campoNombre]}} </option>
   </select>--->
   <ng-select class="form-control form-control form-select selNoBorder"  [ngClass]="{ 'is-invalid': submitted && control.control.errors }" [(ngModel)]="selector" (change)="alCambiar($event)">
-    <ng-option *ngFor="let t of dataArray" [value]="t[campoValor]"  >{{t[campoNombre]}} </ng-option>
+    <ng-option *ngFor="let t of dataArray" [value]="t[campoValor]"  >{{descomponerCampo(t,campoNombre)}} </ng-option>
   </ng-select>
   <span class="btn btn-success" *ngIf="showAdd && templateNuevo !== null && !nuevoRegistro&&!editarRegistro" (click)="nuevoRegistro=true"><i class="fas fa-plus"></i></span>
   <span class="btn btn-primary" *ngIf="showEdit && templateEditar !== null && !editarRegistro&&!nuevoRegistro" (click)="editarRegistro=true"><i class="fas fa-edit"></i></span>

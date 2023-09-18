@@ -47,6 +47,14 @@ export class SelectorAddComponent implements AfterViewInit,ControlValueAccessor,
    });
    //this.setDisabledState(this.isDisabled);
   }
+
+
+  descomponerCampo(dato,campo){
+    let campos = campo.split(".");
+    if (campos.length>1)
+      return dato[campos[0]][campos[1]]
+    return dato[campo];
+  }
   setDisabledState?(isDisabled: boolean): void {
 
   }
