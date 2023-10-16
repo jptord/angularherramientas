@@ -28,6 +28,7 @@ export class SubtablaComponent implements OnInit {
   @Input() campoEstado:any = 'estado';
   @Input() valueEstado:any = 'habilitado';
   @Input() textoBuscar: string = 'Ingrese criterio de búsqueda';
+  @Output() alCargar: EventEmitter<any> = new EventEmitter();
   @Output() alCrear: EventEmitter<any> = new EventEmitter();
   @Output() alFiltrar: EventEmitter<any> = new EventEmitter();
   @Output() alEditar: EventEmitter<any> = new EventEmitter();
@@ -117,6 +118,7 @@ export class SubtablaComponent implements OnInit {
       this.notificacionService.alertError(error);
     });*/
       this.datosService[this.getAll](this.pagination.size, this.pagination.page, this.pagination.sortBy, this.pagination.descending,this.inputBuscar).subscribe((result:any)=>{
+        this.alCargar.emit(this.datos);
         this.datos = result.content;
         this.pagination.rowsNumber = result.pagination.rowsNumber;
         this.pagination.pages = result.pagination.pages;
@@ -127,6 +129,7 @@ export class SubtablaComponent implements OnInit {
       });
     }else{
       this.datosService[this.getAll](this.pagination.size, this.pagination.page, this.pagination.sortBy, this.pagination.descending ).subscribe((result:any)=>{
+        this.alCargar.emit(this.datos);
         this.datos = result.content;
         this.pagination.rowsNumber = result.pagination.rowsNumber;
         this.pagination.pages = result.pagination.pages;

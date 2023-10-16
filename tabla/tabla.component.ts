@@ -28,6 +28,7 @@ export class TablaComponent implements OnInit {
   @Input() campoEstado:any = 'estado';
   @Input() valueEstado:any = 'habilitado';
   @Input() textoBuscar: string = 'Ingrese criterio de búsqueda';
+  @Output() alCargar: EventEmitter<any> = new EventEmitter();
   @Output() alCrear: EventEmitter<any> = new EventEmitter();
   @Output() alFiltrar: EventEmitter<any> = new EventEmitter();
   @Output() alEditar: EventEmitter<any> = new EventEmitter();
@@ -119,7 +120,7 @@ export class TablaComponent implements OnInit {
         this.pagination.rowsNumber = result.pagination.rowsNumber;
         this.pagination.pages = result.pagination.pages;
         this.estaCargando = false;
-
+        this.alCargar.emit(this.datos);
       }, error=>{
         this.notificacionService.alertError(error);
       });
@@ -129,7 +130,7 @@ export class TablaComponent implements OnInit {
         this.pagination.rowsNumber = result.pagination.rowsNumber;
         this.pagination.pages = result.pagination.pages;
         this.estaCargando = false;
-
+        this.alCargar.emit(this.datos);
       }, error=>{
         this.notificacionService.alertError(error);
       });

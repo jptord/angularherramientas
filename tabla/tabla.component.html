@@ -71,7 +71,7 @@
                 <ng-template #noTemplatetbody>
                   <tr *ngFor="let data of datos">
                     <ng-template [ngIf]="templateFila !== undefined" [ngIfElse]="sintemplate">
-                      <ng-container [ngTemplateOutlet]="templateFila" [ngTemplateOutletContext]="{fila: data,cabeceras: cabeceras}"></ng-container>
+                      <ng-container [ngTemplateOutlet]="templateFila" [ngTemplateOutletContext]="{fila: data, cabeceras: cabeceras}"></ng-container>
                     </ng-template>
                     <ng-template #sintemplate>
                       <ng-template ngFor let-campo [ngForOf]="this.cabeceras">

@@ -29,6 +29,7 @@ export class TablaselectorComponent implements OnInit {
   @Input() campoEstado:any = 'estado';
   @Input() valueEstado:any = 'habilitado';
   @Input() textoBuscar: string = 'Ingrese criterio de busqueda';
+  @Output() alCargar: EventEmitter<any> = new EventEmitter();
   @Output() alCrear: EventEmitter<any> = new EventEmitter();
   @Output() alFiltrar: EventEmitter<any> = new EventEmitter();
   @Output() alEditar: EventEmitter<any> = new EventEmitter();
